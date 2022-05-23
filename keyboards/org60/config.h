@@ -23,8 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x6060
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    大橘子外设 (Large orange peripherals)
-#define PRODUCT         Org60
+#define MANUFACTURER    CosHiM Security Team
+#define PRODUCT         CosHiM GH60
 
 /* key matrix size */
 #define MATRIX_ROWS 5
@@ -59,11 +59,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  * F6 PIN for Org60 that has pre-soldered WS2812 LEDs
  */
 #define RGB_DI_PIN F6
+// #define RGBLIGHT_EFFECT_STATIC_GRADIENT
+// #define RGBLIGHT_MODE_STATIC_LIGHT
 #define RGBLIGHT_ANIMATIONS
-#define RGBLED_NUM 20     			// Number of LEDs
+// #define RGBLED_NUM 20     			// Number of LEDs
+#define RGBLED_NUM 5
 #define RGBLIGHT_HUE_STEP 10
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
+#define RGBLIGHT_LIMIT_VAL 128
+#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_NONE
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
