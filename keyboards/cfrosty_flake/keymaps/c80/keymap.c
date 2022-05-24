@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_NO,   DF(0),   DF(1),   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,
           KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   RAPIDF,  KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,
           KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,            KC_NO,
-          KC_NO,            KC_NO,   KC_NO,   KC_NO,   QK_BOOT, KC_NO,   KC_NO,   TG(4),   KC_NO,   KC_NO,   KC_NO,            KC_NO,              KC_NO,
+          KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   QK_BOOT, KC_NO,   TG(4),   KC_NO,   KC_NO,   KC_NO,            KC_NO,              KC_NO,
           KC_NO,   KC_NO,   KC_NO,                              TG(2),                              KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO
      ),
 
@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_NO,   KC_BTN3, KC_BTN4, KC_BTN5, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_ACL0, KC_ACL1, KC_ACL2, KC_NO,     KC_NO,   KC_NO,   KC_NO,
           KC_NO,   KC_BTN1, KC_MS_U, KC_BTN2, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,
           KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, KC_NO,   KC_NO,   KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, KC_NO,   KC_NO,            KC_NO,
-          KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   QK_BOOT, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,            KC_NO,     KC_NO,
+          KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,            KC_NO,     KC_NO,
           KC_NO,   KC_NO,   KC_NO,                              KC_NO,                              KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO
      )
 };
@@ -199,24 +199,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void led_blink(void) {
-  if (rf_state != DELAY_SETUP) {
-     return ;
+  int led_pin;
+  if (rf_state == DELAY_SETUP) {
+    led_pin = B7;
+  }else if(rf_state == RUNNING) {
+    led_pin = C5;
+  }else {
+    return ;
   }
 
   uint16_t t_delay = led_status ? 700 : 300;
 
   if (timer_elapsed(led_timer) > t_delay) {
-     writePin(B7, led_status);      // num lock
      led_status = !led_status;
+     writePin(led_pin, led_status);
      led_timer = timer_read();
   }
 }
 
-void keyboard_post_init_user(void) {
-    writePin(B7, 0); // num lock
-    writePin(C7, 0); // caps lock
-    writePin(C6, 0); // scroll lock
-}
+// void keyboard_post_init_user(void) {
+//     writePin(B7, 0); // num lock
+//     writePin(C5, 0); // caps lock
+//     writePin(C6, 0); // scroll lock
+// }
 
 void matrix_scan_user(void) {
   do_rapid_fire();
