@@ -46,6 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TRNS, KC_TRNS, KC_APP, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_END, KC_PGDN, KC_TRNS,
       KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
+  // 2: Mouse Layer
   LAYOUT_60_ansi(
       TO(0), KC_BTN3, KC_BTN4, KC_BTN5, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_ACL0, KC_ACL1, KC_ACL2, KC_NO,
       KC_NO, KC_BTN1, KC_MS_U, KC_BTN2, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
@@ -60,13 +61,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_NO,
       KC_NO
   ),
+  // 3: PN Layer
 LAYOUT_60_ansi(
-  //  KC_ESC, KC_1, KC_2,   KC_3,  KC_4,  KC_5,  KC_6,  KC_7, KC_8,  KC_9,  KC_0, KC_MINS, KC_EQL, KC_BSPC,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, RAPIDF, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, QK_BOOT, KC_NO, TG(2), KC_NO, KC_NO, KC_NO, KC_NO,
-      KC_NO, KC_NO, KC_NO, TG(1), KC_NO, KC_NO, KC_TRNS, KC_NO
+      KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
+      KC_NO,     TG(4),    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    RAPIDF,   KC_NO,    KC_NO,    KC_NO,
+      KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,              KC_NO,
+      KC_NO,               KC_NO,    KC_NO,    KC_NO,    KC_NO,    QK_BOOT,  KC_NO,    TG(2),    KC_NO,    KC_NO,    KC_NO,              KC_NO,
+      KC_NO,     KC_NO,    KC_NO,                                  TG(1),                                  KC_NO,    KC_NO,    KC_NO,    KC_NO
+  ),
+// 4: MIDI LAYER
+LAYOUT_60_ansi(
+      TO(0),     MI_C_4,   MI_Cs_4,  MI_D_4,   MI_Ds_4,  MI_E_4,   MI_F_4,   MI_Fs_4,  MI_G_4,   MI_Gs_4,  MI_A_4,   MI_As_4,  MI_B_4,   KC_NO,
+      KC_NO,     MI_C_3,   MI_Cs_3,  MI_D_3,   MI_Ds_3,  MI_E_3,   MI_F_3,   MI_Fs_3,  MI_G_3,   MI_Gs_3,  MI_A_3,   MI_As_3,  MI_B_3,   KC_NO,
+      KC_NO,     MI_C_2,   MI_Cs_2,  MI_D_2,   MI_Ds_2,  MI_E_2,   MI_F_2,   MI_Fs_2,  MI_G_2,   MI_Gs_2,  MI_A_2,   MI_As_2,            KC_NO,
+      KC_NO,               MI_C_1,   MI_Cs_1,  MI_D_1,   MI_Ds_1,  MI_E_1,   MI_F_1,   MI_Fs_1,  MI_G_1,   MI_Gs_1,  MI_A_1,             KC_NO,
+      KC_NO,     KC_NO,    KC_NO,                                  KC_NO,                                  KC_NO,    KC_NO,    KC_NO,    KC_NO
   )
 };
 
@@ -198,4 +207,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_scan_user(void) {
   do_rapid_fire();
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  if (IS_LAYER_ON_STATE(state, 4)) {
+    rgblight_enable_noeeprom();
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
+  }else{
+    rgblight_disable_noeeprom();
+  }
+  return state;
 }
