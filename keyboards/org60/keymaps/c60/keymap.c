@@ -13,6 +13,7 @@ static uint16_t rf_timer;
 static uint16_t rf_delay;
 
 static bool rapid_fire = false;
+static bool should_led_off = false;
 
 enum rf_states {
   OFF = 1,
@@ -211,10 +212,14 @@ void matrix_scan_user(void) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   if (IS_LAYER_ON_STATE(state, 4)) {
+    should_led_off = true;
     rgblight_enable_noeeprom();
     rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_SWIRL);
   }else{
-    rgblight_disable_noeeprom();
+    if (should_led_off) {
+      rgblight_disable_noeeprom();
+      should_led_off = false;
+    }
   }
   return state;
 }
