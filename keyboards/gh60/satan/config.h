@@ -22,6 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
 
+#define VENDOR_ID       0xFEED
+#define PRODUCT_ID      0x6060
+#define DEVICE_VER      0x0961 // 2401
+#define MANUFACTURER    "CosHiM Security Team"
+#define PRODUCT         "CosHiM GH60"
+// #define DESCRIPTION     v2024.01 QMK satan@c60
+
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
@@ -37,3 +44,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+#define TAPPING_TERM 200
+#define MIDI_ADVANCED
